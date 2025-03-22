@@ -17,7 +17,11 @@ const bodegasRoutes = require('./routes/bodegas');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*', // Allow all origins for testing
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Rutas
@@ -29,10 +33,14 @@ app.use('/api/bodegas', bodegasRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
-  res.json({ message: 'API de Kaizen funcionando correctamente' });
+  res.json({ 
+    message: 'API de Kaizen funcionando correctamente',
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// Puerto
+// Puerto - Render asigna PORT automáticamente
 const PORT = process.env.PORT || 3000;
 
 // Iniciar servidor después de comprobar la conexión a la base de datos
@@ -49,7 +57,14 @@ async function startServer() {
     // Iniciar servidor
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`Servidor corriendo en el puerto ${PORT}`);
-      console.log(`API disponible en http://localhost:${PORT}`);
+      console.log(`Entorno: ${process.env.NODE_ENV || 'development'}`);
+      
+      // Mostrar URL correcta para Render
+      if (process.env.RENDER) {
+        console.log(`API disponible en https://${process.env.RENDER_SERVICE_NAME}.onrender.com`);
+      } else {
+        console.log(`API disponible en http://localhost:${PORT}`);
+      }
     });
   } catch (error) {
     console.error('Error al iniciar el servidor:', error);
