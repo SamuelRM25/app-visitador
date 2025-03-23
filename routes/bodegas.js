@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { pool } = require('../config/db');
 
-// Obtener todas las bodegas
+// Check if this file exists and is properly implemented
 router.get('/', async (req, res) => {
   try {
     const [bodegas] = await pool.query(
@@ -16,6 +16,26 @@ router.get('/', async (req, res) => {
   } catch (error) {
     console.error('Error al obtener bodegas:', error);
     res.status(500).json({ success: false, message: 'Error al obtener bodegas' });
+  }
+});
+
+// Obtener todas las bodegas
+router.get('/', async (req, res) => {
+  try {
+    // Add more detailed logging
+    console.log('Fetching all bodegas...');
+    
+    // Simplify the query to troubleshoot
+    const [bodegas] = await pool.query(
+      `SELECT b.* FROM bodegas b ORDER BY b.nombre_bodega`
+    );
+    
+    console.log(`Found ${bodegas.length} bodegas`);
+    res.json({ success: true, data: bodegas });
+  } catch (error) {
+    console.error('Error al obtener bodegas:', error.message);
+    console.error('Stack trace:', error.stack);
+    res.status(500).json({ success: false, message: 'Error al obtener bodegas', error: error.message });
   }
 });
 
@@ -302,6 +322,36 @@ router.delete('/:id_bodega/inventario/:id_medicamento', async (req, res) => {
   } catch (error) {
     console.error('Error al eliminar medicamento del inventario:', error);
     res.status(500).json({ success: false, message: 'Error al eliminar medicamento del inventario' });
+  }
+});
+
+// Endpoint de prueba para bodegas (fallback)
+router.get('/test', async (req, res) => {
+  try {
+    // Return static test data
+    const testBodegas = [
+      {
+        id_bodega: 1,
+        id_user: 1,
+        nombre_bodega: "Bodega Central",
+        descripcion: "Bodega principal de medicamentos",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id_bodega: 2,
+        id_user: 2,
+        nombre_bodega: "Bodega Norte",
+        descripcion: "Sucursal norte",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+    ];
+    
+    res.json({ success: true, data: testBodegas });
+  } catch (error) {
+    console.error('Error en endpoint de prueba:', error);
+    res.status(500).json({ success: false, message: 'Error en endpoint de prueba' });
   }
 });
 
