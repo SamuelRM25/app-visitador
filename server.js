@@ -31,6 +31,14 @@ app.use('/api/clientes', clientesRoutes);
 app.use('/api/pedidos', pedidosRoutes);
 app.use('/api/bodegas', bodegasRoutes);
 
+// Add a test endpoint to verify the server is running
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'API test endpoint working',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Ruta de prueba
 app.get('/', (req, res) => {
   res.json({ 
