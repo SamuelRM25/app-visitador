@@ -19,6 +19,25 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET all bodegas
+router.get('/', async (req, res) => {
+  try {
+    // Update the query to use the correct column name from usuarios table
+    // It seems 'nombre' doesn't exist, we might need to use 'nombre_usuario' or another column
+    const [bodegas] = await pool.query(`
+      SELECT b.*, u.username as nombre_usuario
+      FROM bodegas b
+      LEFT JOIN usuarios u ON b.id_user = u.id_user
+      ORDER BY b.nombre_bodega
+    `);
+    
+    res.json(bodegas);
+  } catch (error) {
+    console.error('Error al obtener bodegas:', error);
+    res.status(500).json({ message: 'Error al obtener bodegas', error: error.message });
+  }
+});
+
 // Obtener todas las bodegas
 router.get('/', async (req, res) => {
   try {
