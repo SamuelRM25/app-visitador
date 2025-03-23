@@ -12,6 +12,7 @@ const medicamentosRoutes = require('./routes/medicamentos');
 const clientesRoutes = require('./routes/clientes');
 const pedidosRoutes = require('./routes/pedidos');
 const bodegasRoutes = require('./routes/bodegas');
+const girasRoutes = require('./routes/giras');
 
 // Crear aplicación Express
 const app = express();
@@ -30,6 +31,7 @@ app.use('/api/medicamentos', medicamentosRoutes);
 app.use('/api/clientes', clientesRoutes);
 app.use('/api/pedidos', pedidosRoutes);
 app.use('/api/bodegas', bodegasRoutes);
+app.use('/api/giras', girasRoutes);
 
 // Add a test endpoint to verify the server is running
 app.get('/api/test', (req, res) => {
