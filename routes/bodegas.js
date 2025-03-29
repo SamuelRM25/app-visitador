@@ -6,7 +6,7 @@ const { pool } = require('../config/db');
 router.get('/', async (req, res) => {
   try {
     const [bodegas] = await pool.query(
-      `SELECT b.*, u.nombre as nombre_usuario
+      `SELECT b.*, u.nom_user as nombre_usuario
        FROM bodegas b
        LEFT JOIN usuarios u ON b.id_user = u.id_user
        ORDER BY b.nombre_bodega`
