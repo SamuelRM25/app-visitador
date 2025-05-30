@@ -1,12 +1,10 @@
 {
-  "name": "medical-plus-backend",
+  "name": "medical-plus-root",
   "version": "1.0.0",
-  "description": "Backend para la aplicación Medical+",
-  "main": "src/server.js",
+  "description": "Root package for Medical+ app",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "test": "jest --watchAll"
+    "install": "cd backend && npm install",
+    "start": "cd backend && npm start"
   },
   "keywords": [
     "medical",
