@@ -38,28 +38,30 @@ app.get('/', (req, res) => {
 
 // Ruta de Login
 app.post('/api/auth/login', async (req, res) => {
-    const { correo_electronico, contrasena } = req.body;
+    // Ahora esperamos 'usuario' y 'password' desde el frontend
+    const { usuario, password } = req.body;
 
-    if (!correo_electronico || !contrasena) {
-        return res.status(400).json({ message: 'Correo electrónico y contraseña son requeridos.' });
+    if (!usuario || !password) {
+        return res.status(400).json({ message: 'Usuario y contraseña son requeridos.' });
     }
 
     let connection;
     try {
         connection = await pool.getConnection();
         const [rows] = await connection.execute(
-            'SELECT id_usuario, correo_electronico, contrasena, id_perfil FROM Usuarios WHERE correo_electronico = ?',
-            [correo_electronico]
+            // Cambiamos 'correo_electronico' a 'usuario' y 'contrasena' a 'password'
+            'SELECT id_usuario, usuario, password, nombre_usuario, activo FROM Usuarios WHERE usuario = ? AND activo = 1',
+            [usuario]
         );
 
         if (rows.length === 0) {
-            return res.status(401).json({ message: 'Credenciales inválidas.' });
+            return res.status(401).json({ message: 'Credenciales inválidas o usuario inactivo.' });
         }
 
         const user = rows[0];
 
         // Comparar la contraseña encriptada
-        const isMatch = await bcrypt.compare(contrasena, user.contrasena);
+        const isMatch = await bcrypt.compare(password, user.password); // Usamos 'password' de la DB
 
         if (!isMatch) {
             return res.status(401).json({ message: 'Credenciales inválidas.' });
@@ -67,7 +69,7 @@ app.post('/api/auth/login', async (req, res) => {
 
         // Generar un token JWT
         const token = jwt.sign(
-            { id_usuario: user.id_usuario, id_perfil: user.id_perfil },
+            { id_usuario: user.id_usuario, usuario: user.usuario, nombre_usuario: user.nombre_usuario },
             process.env.JWT_SECRET,
             { expiresIn: '1h' } // El token expira en 1 hora
         );
@@ -77,8 +79,8 @@ app.post('/api/auth/login', async (req, res) => {
             token,
             user: {
                 id_usuario: user.id_usuario,
-                correo_electronico: user.correo_electronico,
-                id_perfil: user.id_perfil
+                usuario: user.usuario,
+                nombre_usuario: user.nombre_usuario,
             }
         });
 
