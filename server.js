@@ -146,7 +146,8 @@ app.get('/api/giras/:idGira/municipios', authenticateToken, async (req, res) => 
     try {
         connection = await pool.getConnection();
         const [municipios] = await connection.execute(
-            'SELECT gm.id_gira_municipio, gm.fecha_visita, m.id_municipio, m.nombre_municipio, d.nombre_departamento ' +
+            // --- CAMBIO AQUÍ: Agrega gm.id_gira ---
+            'SELECT gm.id_gira_municipio, gm.id_gira, gm.fecha_visita, m.id_municipio, m.nombre_municipio, d.nombre_departamento ' +
             'FROM Gira_Municipio gm ' +
             'JOIN Municipio m ON gm.id_municipio = m.id_municipio ' +
             'JOIN Departamento d ON m.id_departamento = d.id_departamento ' +
