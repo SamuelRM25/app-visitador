@@ -31,6 +31,28 @@ async function connectDb() {
 // Conectar a la base de datos al iniciar el servidor
 connectDb();
 
+// Middleware para proteger rutas
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        console.warn('Acceso denegado: No se proporcionó token.');
+        return res.sendStatus(401); // No autorizado
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            console.warn('Acceso denegado: Token inválido o expirado.', err.message);
+            return res.sendStatus(403); // Token inválido
+        }
+        req.user = user;
+        next();
+    });
+};
+
+// --- RUTAS DE AUTENTICACIÓN ---
+
 // Ruta de prueba
 app.get('/', (req, res) => {
     res.send('API de Visitador Médico funcionando!');
@@ -38,7 +60,6 @@ app.get('/', (req, res) => {
 
 // Ruta de Login
 app.post('/api/auth/login', async (req, res) => {
-    // Ahora esperamos 'usuario' y 'password' desde el frontend
     const { usuario, password } = req.body;
 
     if (!usuario || !password) {
@@ -49,7 +70,6 @@ app.post('/api/auth/login', async (req, res) => {
     try {
         connection = await pool.getConnection();
         const [rows] = await connection.execute(
-            // Cambiamos 'correo_electronico' a 'usuario' y 'contrasena' a 'password'
             'SELECT id_usuario, usuario, password, nombre_usuario, activo FROM Usuarios WHERE usuario = ? AND activo = 1',
             [usuario]
         );
@@ -61,7 +81,7 @@ app.post('/api/auth/login', async (req, res) => {
         const user = rows[0];
 
         // Comparar la contraseña encriptada
-        const isMatch = await bcrypt.compare(password, user.password); // Usamos 'password' de la DB
+        const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             return res.status(401).json({ message: 'Credenciales inválidas.' });
@@ -92,27 +112,83 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-// Middleware para proteger rutas (ejemplo)
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.sendStatus(401); // No autorizado
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.sendStatus(403); // Token inválido
-        }
-        req.user = user;
-        next();
-    });
-};
-
-// Ejemplo de ruta protegida
+// Ejemplo de ruta protegida (mantener para pruebas)
 app.get('/api/protected', authenticateToken, (req, res) => {
     res.json({ message: 'Esta es una ruta protegida', user: req.user });
+});
+
+// --- RUTAS DEL MÓDULO DE GIRAS ---
+
+// 1. Obtener todas las Giras (activas)
+app.get('/api/giras', authenticateToken, async (req, res) => {
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const [giras] = await connection.execute(
+            'SELECT g.id_gira, g.nombre_gira, d.nombre_departamento ' +
+            'FROM Giras g ' +
+            'JOIN Departamento d ON g.id_departamento = d.id_departamento ' +
+            'WHERE g.activo = 1 ORDER BY g.nombre_gira'
+        );
+        res.status(200).json(giras);
+    } catch (error) {
+        console.error('Error al obtener giras:', error);
+        res.status(500).json({ message: 'Error interno del servidor al obtener giras.' });
+    } finally {
+        if (connection) connection.release();
+    }
+});
+
+// 2. Obtener los municipios de una Gira específica
+app.get('/api/giras/:idGira/municipios', authenticateToken, async (req, res) => {
+    const { idGira } = req.params;
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const [municipios] = await connection.execute(
+            'SELECT gm.id_gira_municipio, gm.fecha_visita, m.id_municipio, m.nombre_municipio, d.nombre_departamento ' +
+            'FROM Gira_Municipio gm ' +
+            'JOIN Municipio m ON gm.id_municipio = m.id_municipio ' +
+            'JOIN Departamento d ON m.id_departamento = d.id_departamento ' +
+            'WHERE gm.id_gira = ? ORDER BY gm.fecha_visita, m.nombre_municipio',
+            [idGira]
+        );
+        if (municipios.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron municipios para esta gira o la gira no existe.' });
+        }
+        res.status(200).json(municipios);
+    } catch (error) {
+        console.error(`Error al obtener municipios para la gira ${idGira}:`, error);
+        res.status(500).json({ message: 'Error interno del servidor al obtener municipios de la gira.' });
+    } finally {
+        if (connection) connection.release();
+    }
+});
+
+// 3. Obtener los clientes para una Gira y un Gira_Municipio específico
+// Esta ruta es CRUCIAL y se ha actualizado para usar id_gira y id_gira_municipio
+app.get('/api/giras/:idGira/gira-municipios/:idGiraMunicipio/clientes', authenticateToken, async (req, res) => {
+    const { idGira, idGiraMunicipio } = req.params;
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const [clientes] = await connection.execute(
+            'SELECT id_cliente, id_gira, id_gira_municipio, nombre_cliente, telefono_cliente, ' +
+            'cliente_compra, latitud_cliente, longitud_cliente ' +
+            'FROM Clientes ' +
+            'WHERE id_gira = ? AND id_gira_municipio = ? AND activo = 1 ORDER BY nombre_cliente',
+            [idGira, idGiraMunicipio]
+        );
+        if (clientes.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron clientes para esta combinación de gira y municipio asignado.' });
+        }
+        res.status(200).json(clientes);
+    } catch (error) {
+        console.error(`Error al obtener clientes para la gira ${idGira} y gira_municipio ${idGiraMunicipio}:`, error);
+        res.status(500).json({ message: 'Error interno del servidor al obtener clientes.' });
+    } finally {
+        if (connection) connection.release();
+    }
 });
 
 
