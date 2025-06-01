@@ -146,7 +146,6 @@ app.get('/api/giras/:idGira/municipios', authenticateToken, async (req, res) => 
     try {
         connection = await pool.getConnection();
         const [municipios] = await connection.execute(
-            // --- CAMBIO AQUÍ: Agrega gm.id_gira ---
             'SELECT gm.id_gira_municipio, gm.id_gira, gm.fecha_visita, m.id_municipio, m.nombre_municipio, d.nombre_departamento ' +
             'FROM Gira_Municipio gm ' +
             'JOIN Municipio m ON gm.id_municipio = m.id_municipio ' +
@@ -167,7 +166,6 @@ app.get('/api/giras/:idGira/municipios', authenticateToken, async (req, res) => 
 });
 
 // 3. Obtener los clientes para una Gira y un Gira_Municipio específico
-// Esta ruta es CRUCIAL y se ha actualizado para usar id_gira y id_gira_municipio
 app.get('/api/giras/:idGira/gira-municipios/:idGiraMunicipio/clientes', authenticateToken, async (req, res) => {
     const { idGira, idGiraMunicipio } = req.params;
     let connection;
@@ -187,6 +185,76 @@ app.get('/api/giras/:idGira/gira-municipios/:idGiraMunicipio/clientes', authenti
     } catch (error) {
         console.error(`Error al obtener clientes para la gira ${idGira} y gira_municipio ${idGiraMunicipio}:`, error);
         res.status(500).json({ message: 'Error interno del servidor al obtener clientes.' });
+    } finally {
+        if (connection) connection.release();
+    }
+});
+
+// --- NUEVAS RUTAS PARA PEDIDOS Y MEDICAMENTOS ---
+
+// 4. Obtener el último pedido pendiente de un cliente
+app.get('/api/clientes/:idCliente/pedidos/pendientes', authenticateToken, async (req, res) => {
+    const { idCliente } = req.params;
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        // Buscar el último pedido 'no entregado' para este cliente
+        const [pedidos] = await connection.execute(
+            'SELECT id_pedido, id_cliente, id_usuario, fecha_pedido, pedido_entregado, total_pedido, fecha_entrega ' +
+            'FROM Pedidos ' +
+            'WHERE id_cliente = ? AND pedido_entregado = "no" ' +
+            'ORDER BY fecha_pedido DESC LIMIT 1',
+            [idCliente]
+        );
+
+        if (pedidos.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron pedidos pendientes para este cliente.' });
+        }
+
+        const pedido = pedidos[0];
+
+        // Obtener los detalles de ese pedido
+        const [detalles] = await connection.execute(
+            'SELECT dp.id_detalle_pedido, dp.id_medicamento, dp.cantidad_medicamento, dp.precio_unitario, dp.subtotal_medicamento, dp.estado_pedido, ' +
+            'm.nombre_medicamento, m.presentacion_medicamento ' +
+            'FROM Detalles_Pedidos dp ' +
+            'JOIN Medicamento m ON dp.id_medicamento = m.id_medicamento ' +
+            'WHERE dp.id_pedido = ?',
+            [pedido.id_pedido]
+        );
+
+        res.status(200).json({
+            ...pedido,
+            detalles_pedido: detalles
+        });
+
+    } catch (error) {
+        console.error(`Error al obtener pedido pendiente para cliente ${idCliente}:`, error);
+        res.status(500).json({ message: 'Error interno del servidor al obtener pedido pendiente.' });
+    } finally {
+        if (connection) connection.release();
+    }
+});
+
+// 5. Obtener todos los medicamentos disponibles con su cantidad en inventario
+app.get('/api/medicamentos/disponibles', authenticateToken, async (req, res) => {
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const [medicamentos] = await connection.execute(
+            'SELECT m.id_medicamento, m.nombre_medicamento, m.molecula_medicamento, m.presentacion_medicamento, m.precio_medicamento, ' +
+            'SUM(ib.cantidad_medicamento) AS cantidad_disponible ' + // Suma de inventario de todas las bodegas
+            'FROM Medicamento m ' +
+            'JOIN Inventario_Bodega ib ON m.id_medicamento = ib.id_medicamento ' +
+            'WHERE m.activo = 1 ' +
+            'GROUP BY m.id_medicamento, m.nombre_medicamento, m.molecula_medicamento, m.presentacion_medicamento, m.precio_medicamento ' +
+            'HAVING SUM(ib.cantidad_medicamento) > 0 ' + // Solo medicamentos con stock > 0
+            'ORDER BY m.nombre_medicamento'
+        );
+        res.status(200).json(medicamentos);
+    } catch (error) {
+        console.error('Error al obtener medicamentos disponibles:', error);
+        res.status(500).json({ message: 'Error interno del servidor al obtener medicamentos.' });
     } finally {
         if (connection) connection.release();
     }
