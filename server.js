@@ -5,9 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000; // Puedes usar el puerto que desees
 
 // Importar rutas
-const medicamentoRoutes = require('./routes/medicamentoRoutes.js/index.js');
-const inventarioRoutes = require('./routes/inventarioRoutes.js/index.js');
-const pedidoRoutes = require('./routes/pedidoRoutes.js/index.js');
+const medicamentoRoutes = require('./routes/medicamentoRoutes.js');
+const inventarioRoutes = require('./routes/inventarioRoutes.js');
+const pedidoRoutes = require('./routes/pedidoRoutes.js');
 const giraRoutes = require('./routes/giraRoutes.js'); // Nueva ruta para giras
 
 // Middlewares
