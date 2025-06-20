@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:contentPadding="12dp"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_search_result_client_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre del Cliente"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#3F51B5"
+            android:layout_marginBottom="2dp" />
+
+        <TextView
+            android:id="@+id/tv_search_result_client_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ubicación del Cliente"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/tv_search_result_gira_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Perteneciente a Gira: Nombre de la Gira"
+            android:textSize="14sp"
+            android:textColor="#9E9E9E"
+            android:drawableStart="@drawable/ic_route"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_dashboard"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/nav_medical_visits"
+        android:icon="@drawable/ic_medical_visits"
+        android:title="Visitas Médicas" />
+    <item
+        android:id="@+id/nav_warehouse"
+        android:icon="@drawable/ic_warehouse"
+        android:title="Bodega" />
+    <item
+        android:id="@+id/nav_quotas"
+        android:icon="@drawable/ic_quotas"
+        android:title="Cuotas" />
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Configuración" />
+</menu>

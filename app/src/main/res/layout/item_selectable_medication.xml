@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:background="?attr/selectableItemBackground"
+    android:focusable="true"
+    android:clickable="true">
+
+    <TextView
+        android:id="@+id/tv_medication_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre (Molécula) - Presentación"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tv_medication_stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stock: 0"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/et_medication_quantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Cantidad"
+            android:inputType="number"
+            android:padding="8dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:layout_marginEnd="8dp" />
+
+        <EditText
+            android:id="@+id/et_medication_custom_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Precio de Venta"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:drawableStart="@drawable/ic_money"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+
+</LinearLayout>

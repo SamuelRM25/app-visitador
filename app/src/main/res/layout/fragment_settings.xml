@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".ui.settings.SettingsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Configuración"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#3F51B5"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Sección de Gestión de Datos -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gestión de Datos"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#009688"
+                    android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_import_export_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="La exportación e importación de datos te permite guardar y restaurar toda la información de la aplicación (giras, médicos, medicamentos, cuotas). Usa esta función para respaldar tus datos."
+                    android:textColor="#616161"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="15dp" />
+
+                <Button
+                    android:id="@+id/btn_export_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Exportar Datos (Copiar a Portapapeles)"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="@android:color/white"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp"
+                    android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pegar datos exportados para importar:"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/et_import_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:hint="Pega aquí los datos JSON exportados..."
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:background="@drawable/rounded_edittext_background"
+                    android:padding="12dp"
+                    android:layout_marginBottom="15dp" />
+
+                <Button
+                    android:id="@+id/btn_import_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Importar Datos"
+                    android:backgroundTint="#F44336"
+                    android:textColor="@android:color/white"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <!-- ProgressBar para exportar/importar -->
+                <ProgressBar
+                    android:id="@+id/progress_bar_export_import"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone" /> <!-- Visible durante la exportación/importación -->
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Sección de Otras Configuraciones -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Otras Configuraciones"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#2196F3"
+                    android:layout_marginBottom="10dp" />
+
+                <!-- Preferencias de Notificación -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Habilitar Notificaciones"
+                        android:textSize="16sp"
+                        android:textColor="#333333" />
+                    <Switch
+                        android:id="@+id/switch_notifications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true" />
+                </LinearLayout>
+
+                <!-- Configuración de Tema (Claro/Oscuro) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Modo Oscuro"
+                        android:textSize="16sp"
+                        android:textColor="#333333" />
+                    <Switch
+                        android:id="@+id/switch_theme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+                </LinearLayout>
+
+                <!-- Gestión de Permisos -->
+                <Button
+                    android:id="@+id/btn_manage_permissions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gestionar Permisos"
+                    android:backgroundTint="#FFC107"
+                    android:textColor="#333333"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp"
+                    android:layout_marginBottom="10dp" />
+
+                <!-- Información de la Aplicación -->
+                <Button
+                    android:id="@+id/btn_about_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Acerca de la Aplicación"
+                    android:backgroundTint="#9E9E9E"
+                    android:textColor="@android:color/white"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

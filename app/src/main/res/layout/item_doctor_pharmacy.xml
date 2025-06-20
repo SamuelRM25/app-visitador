@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp"
+    app:contentPadding="12dp"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/doctor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre del Médico/Farmacia"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#424242"
+                android:layout_marginBottom="2dp" />
+
+            <TextView
+                android:id="@+id/doctor_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ubicación"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:drawableStart="@drawable/ic_location"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/doctor_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Teléfono: 5555-0000"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:drawableStart="@drawable/ic_phone"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:id="@+id/doctor_buys"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Compra: Sí"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:textColor="#4CAF50"
+                android:layout_marginTop="2dp" />
+
+            <!-- TextView para medicamentos pedidos -->
+            <TextView
+                android:id="@+id/tv_ordered_medications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pedidos: Ninguno"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:drawableStart="@drawable/ic_medicine"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="2dp"
+                android:visibility="visible" />
+
+            <!-- TextView para el saldo pendiente -->
+            <TextView
+                android:id="@+id/tv_outstanding_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pendiente: Q0.00"
+                android:textSize="14sp"
+                android:textColor="#D32F2F"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_money"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="2dp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <!-- CheckBox para marcar como visitado -->
+        <CheckBox
+            android:id="@+id/checkbox_visited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:buttonTint="@color/checkbox_tint_selector"
+            android:gravity="center_vertical"
+            android:text="Visitado"
+            android:textColor="@color/checkbox_text_selector"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/icon_maps"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/icon_maps"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_map"
+            android:contentDescription="Abrir en Google Maps"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="8dp"
+            app:tint="#2196F3" />
+
+        <ImageView
+            android:id="@+id/btn_doctor_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_more_vert"
+            android:contentDescription="Opciones de Médico/Farmacia"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/et_medication_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del Medicamento"
+        android:inputType="textCapSentences"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/et_medication_molecule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Molécula"
+        android:inputType="textCapSentences"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/et_medication_presentation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Presentación (ej. Tabletas 500mg)"
+        android:inputType="textCapSentences"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/et_medication_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Precio Unitario"
+        android:inputType="numberDecimal"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/et_medication_stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Stock (Cantidad en inventario)"
+        android:inputType="numberSigned"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/et_medication_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notas (opcional)"
+        android:inputType="textMultiLine"
+        android:minLines="2"
+        android:maxLines="4"
+        android:gravity="top"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext_background" />
+
+</LinearLayout>

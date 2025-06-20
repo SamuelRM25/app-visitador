@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Medical Visit Control</string>
+    <string name="no_hay_giras_programadas">No hay giras programadas.</string>
+    <string name="mis_giras_de_visita_m_dica">Mis Giras de Visita Médica</string>
+</resources>

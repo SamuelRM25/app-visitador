@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/et_doctor_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre (Médico/Farmacia)"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginBottom="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <EditText
+            android:id="@+id/et_doctor_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Ubicación (ej. dirección)"
+            android:inputType="textPostalAddress"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:layout_marginEnd="8dp" />
+
+        <ImageView
+            android:id="@+id/btn_select_location_map"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_map"
+            android:contentDescription="Seleccionar ubicación desde mapa"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="#2196F3"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_doctor_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Número de Teléfono"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginBottom="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
+        android:paddingVertical="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="¿Realiza compras?"
+            android:textSize="16sp"
+            android:textColor="#333333" />
+
+        <Switch
+            android:id="@+id/switch_doctor_buys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false" />
+
+    </LinearLayout>
+
+    <!-- Nuevo botón para seleccionar medicamentos -->
+    <Button
+        android:id="@+id/btn_select_medications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar Medicamentos"
+        android:backgroundTint="#4CAF50"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp"
+        app:cornerRadius="8dp" />
+
+    <!-- TextView para mostrar los medicamentos seleccionados -->
+    <TextView
+        android:id="@+id/tv_selected_medications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ningún medicamento seleccionado"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        android:drawableStart="@drawable/ic_medicine"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:paddingVertical="4dp"
+        android:visibility="visible" /> <!-- Se hace visible si hay medicamentos seleccionados -->
+
+</LinearLayout>

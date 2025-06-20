@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F4F6"
+    tools:context=".ui.medicalvisits.GiraDetailFragment">
+
+    <TextView
+        android:id="@+id/gira_detail_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Detalle de Gira"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#3F51B5"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/gira_detail_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Descripción de la gira seleccionada."
+        android:textSize="18sp"
+        android:textColor="#616161"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/gira_detail_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Campo de búsqueda de clientes -->
+    <EditText
+        android:id="@+id/et_search_client"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Buscar Cliente (Nombre, Ubicación, Teléfono)"
+        android:inputType="text"
+        android:padding="12dp"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/gira_detail_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_doctors_assigned_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Médicos y Farmacias Asignados:"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:textColor="#757575"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/et_search_client"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- RadioGroup para filtrar clientes -->
+    <RadioGroup
+        android:id="@+id/radio_group_filter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_radio_group_background"
+        android:padding="4dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_doctors_assigned_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/rb_all_clients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Todos"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:background="@drawable/radio_button_selector"
+            android:textColor="@drawable/radio_button_text_selector"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/rb_visited_clients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Visitados"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:background="@drawable/radio_button_selector"
+            android:textColor="@drawable/radio_button_text_selector"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/rb_not_visited_clients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="No Visitados"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:background="@drawable/radio_button_selector"
+            android:textColor="@drawable/radio_button_text_selector"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_doctors"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/radio_group_filter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_doctor_pharmacy" />
+
+    <TextView
+        android:id="@+id/tv_no_doctors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No hay médicos o farmacias asignados a esta gira."
+        android:textSize="18sp"
+        android:textColor="#757575"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintTop_toBottomOf="@id/radio_group_filter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_doctor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="#4CAF50"
+        app:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
